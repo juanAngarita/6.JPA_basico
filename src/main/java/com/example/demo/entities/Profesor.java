@@ -25,10 +25,12 @@ public class Profesor {
     private String nombre;
     private String correo;
 
+    @Builder.Default
     @ManyToMany
     private List<Student> students = new ArrayList<>();
 
     public Profesor(String nombre, String correo) {
+        this.students = new ArrayList<>();
         this.nombre = nombre;
         this.correo = correo;
     }
