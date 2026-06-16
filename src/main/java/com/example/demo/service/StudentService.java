@@ -1,21 +1,17 @@
 package com.example.demo.service;
 
 import java.util.Collection;
-import java.util.List;
 
 import com.example.demo.entities.Student;
 
 public interface StudentService {
 
-    public Student searchById(Long id);
+    public Student searchById(Integer id);
 
     public Collection<Student> searchAll();
 
-    public void save(Student student, Long carreraId);
+    public void save(Student student);
 
-    public void delete(Long id);
-
-        public List<Student> findByNombre(String nombre);
-
+    public void delete(Integer id);
 
 }

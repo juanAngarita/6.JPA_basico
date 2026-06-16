@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entities.Student;
-import com.example.demo.repository.StudentRepository;
-import com.example.demo.service.CarreraService;
 import com.example.demo.service.StudentService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,10 +21,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class StudentController {
 
     @Autowired
-    StudentService service;
+    private Student estudiante2;
 
     @Autowired
-    CarreraService carreraService;
+    StudentService service;
 
     Logger log = LoggerFactory.getLogger(StudentController.class);
 
@@ -38,7 +36,7 @@ public class StudentController {
 
     // http://localhost:8080/student/1/tareas
     @GetMapping("/{id}")
-    public String mostrarEstudiantePorId(Model model, @PathVariable("id") Long identificacion) {
+    public String mostrarEstudiantePorId(Model model, @PathVariable("id") Integer identificacion) {
 
         Student student = service.searchById(identificacion);
 
@@ -49,7 +47,7 @@ public class StudentController {
 
     // http://localhost:8080/student?nombre=pedro&edad=20&genero=masculino
     @GetMapping(params = "id")
-    public String mostrarEstudiantePorId2(Model model, @RequestParam("id") Long identificacion) {
+    public String mostrarEstudiantePorId2(Model model, @RequestParam("id") Integer identificacion) {
 
         Student student = service.searchById(identificacion);
 
@@ -59,7 +57,7 @@ public class StudentController {
     }
 
     @GetMapping("/delete/{id}")
-    public String eliminarEstudiante(@PathVariable("id") Long id) {
+    public String eliminarEstudiante(@PathVariable("id") Integer id) {
         service.delete(id);
         return "redirect:/student";
     }
@@ -67,47 +65,49 @@ public class StudentController {
     @GetMapping("/add")
     public String mostrarFormularioCrear(Model model) {
 
-        Student student = new Student("", 0, "", "");
+        Student student = new Student(null, "", "", 0, "", "");
 
         model.addAttribute("estudiante", student);
-
-        model.addAttribute("carreras", carreraService.searchAll());
 
         return "crear_estudiante";
     }
 
     @GetMapping("/update/{id}")
-    public String getMethodName(@PathVariable("id") Long id, Model model) {
+    public String getMethodName(@PathVariable("id") Integer id, Model model) {
         Student student = service.searchById(id);
 
         model.addAttribute("estudiante", student);
-
-                model.addAttribute("carreras", carreraService.searchAll());
-
 
         return "crear_estudiante";
     }
 
     @PostMapping("/add")
-    public String agregarEstudiante(
-            @ModelAttribute("estudiante") Student student,
-            @RequestParam Long carreraId) {
+    public String agregarEstudiante(@ModelAttribute("estudiante") Student student) {
 
         log.info(student.getId() + " - " + student.getNombre());
 
-        service.save(student, carreraId);
+        service.save(student);
 
         return "redirect:/student";
     }
 
-        // nuevo
-    @GetMapping(params = "nombre")
-    public String buscarEstudiantesPorNombre(@RequestParam String nombre, Model model) {
-        model.addAttribute("estudiantes", service.findByNombre(nombre));
+    @GetMapping("/quemado")
+    public String mostrarInformacionQuemada(Model model) {
 
-        return "mostrar_todos_estudiantes";
+        Student student = new Student(1, "Perez", "Sistemas", 20, "pepe@pe.pe",
+                "https://avatars.githubusercontent.com/u/1561955?v=4");
+
+        model.addAttribute("estudiante", student);
+
+        return "mostrar_estudiante";
     }
 
+    @GetMapping("/bean")
+    public String mostrarInformacionBean(Model model) {
 
+        model.addAttribute("estudiante", estudiante2);
+
+        return "mostrar_estudiante";
+    }
 
 }

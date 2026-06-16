@@ -19,4 +19,17 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
+	// objetos
+	@Bean
+	public Student estudiante() {
+		return new Student(2, "Perez2", "Sistemas2", 22, "pepe@pe.pe",
+				"https://avatars.githubusercontent.com/u/1561955?v=4");
+	}
+
+	// objetos
+	@Bean
+	public Student estudiante2() {
+		return new Student(3, "Perez3", "Sistemas3", 23, "pepe@pe.pe",
+				"https://avatars.githubusercontent.com/u/1561955?v=4");
+	}
 }

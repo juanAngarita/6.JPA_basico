@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
@@ -54,14 +54,13 @@
 
                 <div class="mb-3">
                   <label for="carrera" class="form-label">Carrera</label>
-                  <select name="carreraId" >
-                    <option
-                      th:each="carrera : ${carreras}"
-                      th:value="${carrera.id}"
-                      th:text="${carrera.nombre}"
-                      th:selected="${carrera.id == estudiante.carrera.id}"
-                    ></option>
-                  </select>
+                  <input
+                    th:field="*{carrera}"
+                    type="text"
+                    id="carrera"
+                    placeholder="Ingresa tu carrera"
+                    class="form-control"
+                  />
                 </div>
 
                 <div class="mb-3">
