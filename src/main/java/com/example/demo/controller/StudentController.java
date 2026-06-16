@@ -23,9 +23,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class StudentController {
 
     @Autowired
-    private Student estudiante2;
-
-    @Autowired
     StudentService service;
 
     @Autowired
@@ -85,6 +82,9 @@ public class StudentController {
 
         model.addAttribute("estudiante", student);
 
+                model.addAttribute("carreras", carreraService.searchAll());
+
+
         return "crear_estudiante";
     }
 
@@ -100,23 +100,14 @@ public class StudentController {
         return "redirect:/student";
     }
 
-    @GetMapping("/quemado")
-    public String mostrarInformacionQuemada(Model model) {
+        // nuevo
+    @GetMapping(params = "nombre")
+    public String buscarEstudiantesPorNombre(@RequestParam String nombre, Model model) {
+        model.addAttribute("estudiantes", service.findByNombre(nombre));
 
-        Student student = new Student("Perez", 20, "pepe@pe.pe",
-                "https://avatars.githubusercontent.com/u/1561955?v=4");
-
-        model.addAttribute("estudiante", student);
-
-        return "mostrar_estudiante";
+        return "mostrar_todos_estudiantes";
     }
 
-    @GetMapping("/bean")
-    public String mostrarInformacionBean(Model model) {
 
-        model.addAttribute("estudiante", estudiante2);
-
-        return "mostrar_estudiante";
-    }
 
 }
